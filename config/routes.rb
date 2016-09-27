@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
 
+  resources :crud_operations
+  resources :roles
   resources :users
 
   scope '/api' do
     scope '/v1' do
+        resources :users, format: 'json'
+        resources :roles, format: 'json'
         resources :users, format: 'json'
     end
   end

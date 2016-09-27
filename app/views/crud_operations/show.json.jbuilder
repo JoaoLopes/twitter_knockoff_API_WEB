@@ -1,0 +1,1 @@
+json.partial! "crud_operations/crud_operation", crud_operation: @crud_operation

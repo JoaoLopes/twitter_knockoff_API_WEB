@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Crud op:</strong>
+  <%= @crud_operation.crud_op %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @crud_operation.role_id %>
+</p>
+
+<p>
+  <strong>Eval exp:</strong>
+  <%= @crud_operation.eval_exp %>
+</p>
+
+<%= link_to 'Edit', edit_crud_operation_path(@crud_operation) %> |
+<%= link_to 'Back', crud_operations_path %>

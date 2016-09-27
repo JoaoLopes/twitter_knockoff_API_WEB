@@ -1,0 +1,1 @@
+json.array! @crud_operations, partial: 'crud_operations/crud_operation', as: :crud_operation

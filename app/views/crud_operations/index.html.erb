@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Crud Operations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Crud op</th>
+      <th>Role</th>
+      <th>Eval exp</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @crud_operations.each do |crud_operation| %>
+      <tr>
+        <td><%= crud_operation.crud_op %></td>
+        <td><%= crud_operation.role_id %></td>
+        <td><%= crud_operation.eval_exp %></td>
+        <td><%= link_to 'Show', crud_operation %></td>
+        <td><%= link_to 'Edit', edit_crud_operation_path(crud_operation) %></td>
+        <td><%= link_to 'Destroy', crud_operation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Crud operation', new_crud_operation_path %>

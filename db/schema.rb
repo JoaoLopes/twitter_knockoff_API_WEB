@@ -11,12 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160925102302) do
+ActiveRecord::Schema.define(version: 20160927221541) do
+
+  create_table "crud_operations", force: :cascade do |t|
+    t.string   "crud_op",    null: false
+    t.integer  "role_id",    null: false
+    t.string   "eval_exp",   null: false
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",        null: false
+    t.string   "description", null: false
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "roles", ["name"], name: "index_roles_on_name", unique: true
 
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
-    t.string   "hashed_password", null: false
-    t.integer  "created_by",      null: false
+    t.string   "password_digest", null: false
+    t.integer  "created_by"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
