@@ -8,23 +8,35 @@
 
 # creating the roles
 Role.delete_all
-admin = Role.create(name: 'admin', description: 'Administrator of the website, GODLIKE!')
-user = Role.create(name: 'user',  description: 'A registered user')
-guest = Role.create(name: 'guest', description: 'Unknown user')
+admin = Role.create(name: Role.admin_role_name, description: 'Administrator of the website, GODLIKE!')
+user = Role.create(name: Role.user_role_name,  description: 'A registered user')
+guest = Role.create(name: Role.guest_role_name, description: 'Unknown user')
 
 # creating the permissions
 CrudOperation.delete_all
-CrudOperation.create([{crud_op: 'C', role: admin, eval_exp: 'true'}, 
-                      {crud_op: 'R', role: admin, eval_exp: 'true'}, 
-                      {crud_op: 'U', role: admin, eval_exp: 'true'}, 
-                      {crud_op: 'D', role: admin, eval_exp: 'true'},
+CrudOperation.create([{crud_op: '*', role: admin, controller: 'default', eval_exp: 'true'}, 
+                      
+                      {crud_op: 'C', role: user, controller: 'default', eval_exp: 'true'}, 
+                      {crud_op: 'R', role: user, controller: 'default', eval_exp: 'true'}, 
+                      {crud_op: 'U', role: user, controller: 'default', eval_exp: 'logged_in? and !obj.nil? and obj.user == current_user'}, 
+                      {crud_op: 'D', role: user, controller: 'default', eval_exp: 'logged_in? and !obj.nil? and obj.user == current_user'},
 
-                      {crud_op: 'C', role: user, eval_exp: 'true'}, 
-                      {crud_op: 'R', role: user, eval_exp: 'true'}, 
-                      {crud_op: 'U', role: user, eval_exp: 'obj.created_by == user'}, 
-                      {crud_op: 'D', role: user, eval_exp: 'obj.created_by == user'},
+                      {crud_op: 'C', role: guest, controller: 'default', eval_exp: 'false'}, 
+                      {crud_op: 'R', role: guest, controller: 'default', eval_exp: 'true'}, 
+                      {crud_op: 'U', role: guest, controller: 'default', eval_exp: 'false'}, 
+                      {crud_op: 'D', role: guest, controller: 'default', eval_exp: 'false'},
 
-                      {crud_op: 'C', role: guest, eval_exp: 'false'}, 
-                      {crud_op: 'R', role: guest, eval_exp: 'true'}, 
-                      {crud_op: 'U', role: guest, eval_exp: 'false'}, 
-                      {crud_op: 'D', role: guest, eval_exp: 'false'} ])
+                      {crud_op: '*', role: admin, controller: 'crud_operations', eval_exp: 'true'}, 
+                      {crud_op: '*', role: user, controller: 'crud_operations', eval_exp: 'false'}, 
+                      {crud_op: '*', role: guest, controller: 'crud_operations', eval_exp: 'false'},
+
+                      {crud_op: '*', role: admin, controller: 'roles', eval_exp: 'true'}, 
+                      {crud_op: '*', role: user, controller: 'roles', eval_exp: 'false'}, 
+                      {crud_op: '*', role: guest, controller: 'roles', eval_exp: 'false'},
+                      
+                      {crud_op: 'C', role: guest, controller: 'users', eval_exp: 'true'}, 
+
+                      {crud_op: '*', role: guest, controller: 'sessions', eval_exp: 'true'},
+                      {crud_op: '*', role: user, controller: 'sessions', eval_exp: 'true'}
+                      
+                      ])

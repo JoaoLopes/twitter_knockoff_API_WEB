@@ -16,14 +16,10 @@
     <%= f.text_field :username %>
   </div>
   <div class="field">
-    <%= f.label :hashed_password %><br>
-    <%= f.text_field :hashed_password %>
-  </div>
-  <div class="field">
-    <%= f.label :created_by %><br>
-    <%= f.number_field :created_by %>
+    <%= f.label :password %><br>
+    <%= f.password_field :password %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit @user.persisted? ? "Update User" : "Create Account" %>
   </div>
 <% end %>

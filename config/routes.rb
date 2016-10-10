@@ -1,13 +1,27 @@
 Rails.application.routes.draw do
 
+  root 'users#index'
+
   resources :crud_operations
-  resources :roles
-  resources :users
+  
+  resources :users do
+    resources :tweets
+  end
+
+  get 'roles'      => 'roles#index'
+  get   'roles/:id'  => 'roles#show'
+  put   'roles/:id'  => 'roles#edit'
+  patch 'roles/:id'  => 'roles#edit'
+
+  get 'sessions/new'
+  get    'login'   => 'sessions#new'
+  post   'login'   => 'sessions#create'
+  delete 'logout'  => 'sessions#destroy'
+  get    'signup'  => 'users#new'
 
   scope '/api' do
     scope '/v1' do
         resources :users, format: 'json'
-        resources :roles, format: 'json'
         resources :users, format: 'json'
     end
   end
