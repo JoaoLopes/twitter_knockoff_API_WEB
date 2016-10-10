@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   resources :crud_operations
   
   resources :users do
-    resources :tweets
+    resources :tweets, only: [:index]
   end
+
+  resources :tweets
 
   get 'roles'      => 'roles#index'
   get   'roles/:id'  => 'roles#show'

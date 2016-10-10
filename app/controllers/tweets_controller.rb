@@ -1,10 +1,14 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  prepend_before_action :set_tweet, only: [:show, :edit, :update, :destroy]
 
   # GET /tweets
   # GET /tweets.json
   def index
-    @tweets = Tweet.all
+    if params[:user_id].nil?
+      @tweets = Tweet.all
+    else
+      @tweets = User.find(params[:user_id]).tweets
+    end
   end
 
   # GET /tweets/1
@@ -30,7 +34,8 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to user_tweets_url, notice: 'Tweet was successfully created.' }
+        flash[:success] = 'Tweet was successfully created.'
+        format.html { redirect_to user_tweets_url(@tweet.user) }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new }
@@ -44,7 +49,8 @@ class TweetsController < ApplicationController
   def update
     respond_to do |format|
       if @tweet.update(tweet_params)
-        format.html { redirect_to user_tweets_url, notice: 'Tweet was successfully updated.' }
+        flash[:success] = 'Tweet was successfully updated.'
+        format.html { redirect_to user_tweets_url(@tweet.user) }
         format.json { render :show, status: :ok, location: @tweet }
       else
         format.html { render :edit }
@@ -58,7 +64,8 @@ class TweetsController < ApplicationController
   def destroy
     @tweet.destroy
     respond_to do |format|
-      format.html { redirect_to user_tweets_url, notice: 'Tweet was successfully destroyed.' }
+      flash[:success] = 'Tweet was successfully destroyed.'
+      format.html { redirect_to user_tweets_url(@tweet.user) }
       format.json { head :no_content }
     end
   end
@@ -67,6 +74,7 @@ class TweetsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
       @tweet = Tweet.find(params[:id])
+      self.obj = @tweet
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,29 +1,34 @@
-<p id="notice"><%= notice %></p>
 
 <h1>Listing Tweets</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Msg</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @tweets.each do |tweet| %>
+<% if @tweets.count == 0 %>
+
+  <h2>This user has no tweets</h2>
+
+<% else %>
+  <table>
+    <thead>
       <tr>
-        <td><%= tweet.msg %></td>
-        <td><%= tweet.user_id %></td>
-        <td><%= link_to 'Show', user_tweet_path %></td>
-        <td><%= link_to 'Edit', edit_user_tweet_path(tweet) %></td>
-        <td><%= link_to 'Destroy', user_tweet_path, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Msg</th>
+        <th>User</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
+    <tbody>
+      <% @tweets.each do |tweet| %>
+        <tr>
+          <td><%= tweet.msg %></td>
+          <td><%= tweet.user_id %></td>
+          <td><%= link_to 'Show', tweet %></td>
+          <td><%= link_to 'Edit', edit_tweet_path(tweet) %></td>
+          <td><%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 <br>
 
-<%= link_to 'New Tweet', new_user_tweet_path %>
+<%= link_to 'New Tweet', new_tweet_path %>
